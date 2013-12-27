@@ -126,7 +126,8 @@ Our experienced teams of recruiters are equipped with the knowledge and expertis
           </ul>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="images/image2.jpg" style="widht:500px;height:300px;" alt="Generic placeholder image">
+        <div id="mapcont" style="width:500px;height:300px;"></div>
+        </div>
         </div>
       </div>
       
@@ -435,8 +436,8 @@ Our experienced teams of recruiters are equipped with the knowledge and expertis
       <h4 class="featurette-heading text-center" style="margin-top:0px;margin-bottom:0px;color:#D9B87D;">Contact Ocher Tech<br></h4>
       <h4 class="lead text-center" style="margin-top:0px;margin-bottom:0px">"Providing comprehensive and state of the art IT training is our forte."</h4>
             <hr class="featurette-divider" style="border-top: 1px solid #D9B87D;margin: 20px;margin-left: 20%;margin-right: 20%;">
-            <div class="col-md-5">
-          <img class="featurette-image img-responsive" src="images/image1.jpg" style="widht:500px;height:300px;" alt="Generic placeholder image">
+            <div  class="col-md-5">
+            <img class="featurette-image img-responsive" src="images/image2.jpg" style="widht:500px;height:300px;" alt="Generic placeholder image">
         </div>
         <div class="col-md-7">
           <p>Ocher Technology Group offers Information Technology (IT) training based in Atlanta, GA , specializing in catering to our clients’ needs. Whether you’re just starting your IT career or are currently an IT professional looking for some additional training and credentials, we provide customized and in-depth training. </p>
@@ -631,6 +632,67 @@ function flatten(root) {
   recurse(root);
   return nodes;
 }
+
+</script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script>
+
+var width = 500,
+    height = 300;
+
+var projection = d3.geo.mercator()
+    .center([-63, 43])
+    .scale(205)
+    .translate([width / 2, height / 2])
+    .clipExtent([[0, 0], [width, height]])
+    .precision(.1);
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var graticule = d3.geo.graticule()
+    .step([10, 10]);
+
+var svg1 = d3.select("#mapcont").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+svg1.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path);
+
+svg1.append("circle")
+    .attr("class", "dot")
+    .attr("transform", "translate(" + projection([-83, 35]) + ")")
+    .attr("r", 4);
+
+setInterval(function() {
+  svg1.append("circle")
+      .attr("class", "ring")
+      .attr("transform", "translate(" + projection([-83, 35]) + ")")
+      .attr("r", 2)
+      .style("stroke-width", 1)
+      .style("stroke", "#D9B87D")
+    .transition()
+      .ease("linear")
+      .duration(6000)
+      .style("stroke-opacity", 1e-6)
+      .style("stroke-width", 1)
+      .style("stroke", "brown")
+      .attr("r", 160)
+      .remove();
+}, 750);
+
+d3.json("world.json", function(error, world) {
+  svg1.insert("path", ".graticule")
+      .datum(topojson.feature(world, world.objects.land))
+      .attr("class", "land")
+      .attr("d", path);
+});
+
+d3.select(self.frameElement).style("height", height + "px");
 
 </script>
 </body>

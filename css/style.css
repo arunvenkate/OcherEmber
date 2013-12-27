@@ -149,3 +149,22 @@ line.link {
   stroke: #D9B87D;
   stroke-width: 1.5px;
 }
+
+.graticule {
+  fill: none;
+  stroke: grey;
+  stroke-width: .5px;
+}
+
+.land {
+  fill: #D9B87D;
+}
+
+.dot {
+  fill: #D56600;
+}
+
+.ring {
+  fill: none;
+  stroke: #D56600;
+}
