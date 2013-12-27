@@ -153,8 +153,17 @@ body {
   background-color: #e7e7e7;
 }
 
+.navbar-default .navbar-nav>li>a, .navbar-default .navbar-nav>li>a:hover {
+  color: #D56600;
+}
+
 @media (min-width: 992px) {
   .featurette-heading {
     margin-top: 120px;
   }
+}
+
+.panel-default>.panel-heading {
+  color: #fff;
+  background-image: linear-gradient(to bottom,#D9B87D 0,#D9B87D 100%);
 }
